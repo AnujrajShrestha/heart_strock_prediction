@@ -8,6 +8,8 @@ import os
 
 app = FastAPI(title="Heart Disease Prediction API")
 
+handler = app
+
 # Configure CORS Middleware (Kept for flexibility if testing externally)
 app.add_middleware(
     CORSMiddleware,

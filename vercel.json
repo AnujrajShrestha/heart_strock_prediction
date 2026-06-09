@@ -1,16 +1,16 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/metrics",
-      "dest": "api/main.py"
+      "source": "/api/metrics",
+      "destination": "api/index.py"
     },
     {
-      "src": "/predict",
-      "dest": "api/main.py"
+      "source": "/predict",
+      "destination": "api/index.py"
     },
     {
-      "src": "/(.*)",
-      "dest": "api/main.py"
+      "source": "/(.*)",
+      "destination": "api/index.py"
     }
   ]
-}
+} 
