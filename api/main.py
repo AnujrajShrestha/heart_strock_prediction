@@ -17,8 +17,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-MODEL_PATH = "Logistic Regression_heart.pkl"
-SCALER_PATH = "scaler.pkl"
+# Get the absolute directory path of the current file (api/ folder)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Navigate up one level to the root directory where the .pkl binaries are
+ROOT_DIR = os.path.dirname(BASE_DIR)
+
+MODEL_PATH = os.path.join(ROOT_DIR, "Logistic Regression_heart.pkl")
+SCALER_PATH = os.path.join(ROOT_DIR, "scaler.pkl")
+
 model = None
 scaler = None
 
@@ -56,13 +62,13 @@ MODEL_METRICS = {
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     """Serves the index.html frontend page directly at the root URL."""
-    html_path = os.path.join("templates", "index.html")
+    html_path = os.path.join(ROOT_DIR, "templates", "index.html")
     if not os.path.exists(html_path):
         raise HTTPException(status_code=404, detail="Frontend index.html template file not found.")
         
     with open(html_path, "r", encoding="utf-8") as f:
         return f.read()
-    
+
 @app.get("/api/metrics")
 def get_model_metrics():
     """Returns classification training metrics generated during the notebook pipeline run."""
