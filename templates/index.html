@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-purple-700 font-sans min-h-screen text-gray-800">
+
+    <header class="bg-black text-white py-6 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 flex items-center justify-between">
+            <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-2">
+                ❤️ Heart Disease Prediction Dashboard
+            </h1>
+            <p class="text-sm opacity-90 hidden sm:block">Logistic Regression Classifier Pipeline</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <section class="md:col-span-2 bg-black rounded-xl shadow-md p-6 text-gray-400">
+            <h2 class="text-xl font-bold border-b pb-3 mb-6 text-white flex items-center gap-2">
+                📋 Patient Clinical Parameters
+            </h2>
+            
+            <form id="predictionForm" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Age</label>
+                    <input type="number" id="Age" value="54" min="1" max="120" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Sex</label>
+                    <select id="Sex" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Chest Pain Type</label>
+                    <select id="ChestPainType" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="ASY">Asymptomatic (ASY)</option>
+                        <option value="ATA">Atypical Angina (ATA)</option>
+                        <option value="NAP">Non-Anginal Pain (NAP)</option>
+                        <option value="TA">Typical Angina (TA)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Resting Blood Pressure (mm Hg)</label>
+                    <input type="number" id="RestingBP" value="130" min="50" max="250" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Serum Cholesterol (mg/dl)</label>
+                    <input type="number" id="Cholesterol" value="220" min="50" max="650" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Fasting Blood Sugar > 120 mg/dl</label>
+                    <select id="FastingBS" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="0">No (≤ 120 mg/dl)</option>
+                        <option value="1">Yes (> 120 mg/dl)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Resting Electrocardiogram</label>
+                    <select id="RestingECG" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="Normal">Normal</option>
+                        <option value="ST">ST-T Wave Abnormality</option>
+                        <option value="LVH">Left Ventricular Hypertrophy (LVH)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Maximum Heart Rate Achieved</label>
+                    <input type="number" id="MaxHR" value="140" min="60" max="220" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Exercise-Induced Angina</label>
+                    <select id="ExerciseAngina" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="N">No</option>
+                        <option value="Y">Yes</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Oldpeak (ST depression)</label>
+                    <input type="number" id="Oldpeak" value="0.0" min="-3.0" max="7.0" step="0.1" required class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="block text-sm font-semibold mb-2">The Slope of Peak Exercise ST Segment</label>
+                    <select id="ST_Slope" class="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none">
+                        <option value="Up">Upsloping</option>
+                        <option value="Flat">Flat</option>
+                        <option value="Down">Downsloping</option>
+                    </select>
+                </div>
+
+                <div class="sm:col-span-2 mt-2">
+                    <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg shadow-md transition duration-200 cursor-pointer">
+                        Analyze Patient Risk Profile
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section class="flex flex-col gap-6">
+    
+    <div class="bg-black rounded-xl shadow-md p-6 flex flex-col justify-between min-h-[320px]">
+        <div>
+            <h2 class="text-xl font-bold border-b pb-3 mb-6 text-gray-700">
+                📊 Evaluation Result
+            </h2>
+            
+            <div id="placeholderState" class="text-center text-gray-500 py-10">
+                <p class="text-4xl mb-4">🩺</p>
+                <p class="text-sm">Enter patient data inputs on the left and click submit to trigger a real-time risk diagnostic prediction.</p>
+            </div>
+
+            <div id="loadingState" class="hidden text-center py-10">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-red-500 mx-auto mb-4"></div>
+                <p class="text-sm text-gray-600">Querying ML Model Pipeline...</p>
+            </div>
+
+            <div id="resultState" class="hidden text-center">
+                <p class="text-sm font-bold text-gray-500 uppercase tracking-wide">Calculated Risk Factor</p>
+                <div id="riskMetric" class="text-5xl font-black my-4 text-gray-800">0.0%</div>
+                
+                <div id="badgeContainer" class="inline-block px-4 py-2 rounded-full font-bold text-sm">
+                    <span id="badgeText">UNKNOWN RISK</span>
+                </div>
+            </div>
+        </div>
+        <div class="border-t pt-4 text-xs text-gray-400 text-center">
+            Pipeline Engine: Live REST Endpoint
+        </div>
+    </div>
+
+    <div class="bg-slate-900 text-white rounded-xl shadow-md p-6">
+        <h3 class="text-sm font-bold tracking-wider text-slate-400 uppercase border-b border-slate-700 pb-2 mb-4 flex items-center gap-1.2">
+            ⚡ Model Validation Analytics
+        </h3>
+        <div class="space-y-4">
+            <div>
+                <p class="text-xs text-slate-400">Classification Method</p>
+                <p class="text-md font-semibold text-rose-400" id="metricAlgo">Loading...</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p class="text-xs text-slate-400">Test Accuracy</p>
+                    <p class="text-2xl font-black text-emerald-400" id="metricAcc">0.00%</p>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-400">F1-Score Evaluation</p>
+                    <p class="text-2xl font-black text-cyan-400" id="metricF1">0.00%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <script>
+        const form = document.getElementById('predictionForm');
+        const placeholderState = document.getElementById('placeholderState');
+        const loadingState = document.getElementById('loadingState');
+        const resultState = document.getElementById('resultState');
+        
+        const riskMetric = document.getElementById('riskMetric');
+        const badgeContainer = document.getElementById('badgeContainer');
+        const badgeText = document.getElementById('badgeText');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop standard browser page reloads
+
+            // Transition UI views to Loading state
+            placeholderState.classList.add('hidden');
+            resultState.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+
+            // Gather inputs dynamically from DOM elements
+            const payload = {
+                Age: parseInt(document.getElementById('Age').value),
+                Sex: document.getElementById('Sex').value,
+                ChestPainType: document.getElementById('ChestPainType').value,
+                RestingBP: parseFloat(document.getElementById('RestingBP').value),
+                Cholesterol: parseFloat(document.getElementById('Cholesterol').value),
+                FastingBS: parseInt(document.getElementById('FastingBS').value),
+                RestingECG: document.getElementById('RestingECG').value,
+                MaxHR: parseInt(document.getElementById('MaxHR').value),
+                ExerciseAngina: document.getElementById('ExerciseAngina').value,
+                Oldpeak: parseFloat(document.getElementById('Oldpeak').value),
+                ST_Slope: document.getElementById('ST_Slope').value
+            };
+
+            try {
+                // Point endpoint string to your local FastAPI server running on port 8000
+                const response = await fetch('http://127.0.0.1:8000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP network error status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Inject output probability values into view
+                riskMetric.textContent = `${data.probability_percentage}%`;
+                badgeText.textContent = data.risk_assessment;
+
+                // Color-code assessment metrics based on structural risk categories
+                if (data.heart_disease_predicted) {
+                    badgeContainer.className = "inline-block px-4 py-2 rounded-full font-bold text-sm mb-6 bg-red-100 text-red-700 border border-red-300";
+                    riskMetric.className = "text-5xl font-black my-4 text-red-600";
+                } else {
+                    badgeContainer.className = "inline-block px-4 py-2 rounded-full font-bold text-sm mb-6 bg-green-100 text-green-700 border border-green-300";
+                    riskMetric.className = "text-5xl font-black my-4 text-green-600";
+                }
+
+                // Show updated result pane view
+                loadingState.classList.add('hidden');
+                resultState.classList.remove('hidden');
+
+            } catch (error) {
+                console.error(error);
+                alert("Could not communicate with the machine learning backend API. Ensure FastAPI is active and CORS is configured.");
+                loadingState.classList.add('hidden');
+                placeholderState.classList.remove('hidden');
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const response = await fetch('/api/metrics');
+        if (response.ok) {
+            const data = await response.json();
+            document.getElementById('metricAlgo').textContent = data.algorithm;
+            document.getElementById('metricAcc').textContent = `${data.accuracy}%`;
+            document.getElementById('metricF1').textContent = `${data.f1_score}%`;
+        }
+    } catch (err) {
+        console.error("Failed to parse model accuracy payload summary:", err);
+    }
+});
+    </script>
+</body>
+</html>
